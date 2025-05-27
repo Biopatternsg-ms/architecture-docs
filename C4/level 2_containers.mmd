@@ -1,0 +1,73 @@
+C4Container
+title biopattern system 
+
+Boundary(biopatternsg,"Biopatternsg"){
+    Container(webapp,"Web App")
+    Container(config_and_control,"ConfigAndControl")
+    Container(gateway,"Gateway")
+    Container(control_access,"ControlAccess")
+    Container(biological_objects,"BiologicalObjects")
+    Container(pubmed_integration,"PubmedIntegration")
+    Container(ontologies,"Obtologies")
+    Container(build_knowledge_base,"buildKnowledgeBase")
+    Container(rrg_building,"RRGBuilding")
+    
+}
+
+Person("user","User")
+
+Boundary(externalServices,"External Services"){
+
+    Boundary(ncbi, "ncbi") {
+        
+        System_Ext("mesh","MESH")
+        System_Ext("pubtator","PubTator")
+        System_Ext("pubmed","PubMed")
+        Rel(rrg_building,pubmed,"Uses", "Json/Https")
+        Rel(rrg_building,pubtator,"Uses", "Json/Https")
+        Rel(ontologies,mesh,"Uses", "Json/Https")
+
+    
+    }
+
+    System_Ext("pdb","PDB","Busqueda de complejos proteinicos")
+    System_Ext("hgnc","HGNC")
+    System_Ext("quickgo","QuickGO")
+    System_Ext("uniprot","UniProt")
+    System_Ext("tfbind","TFbind")
+    System_Ext("jasper","Jasper")
+
+    Rel(ontologies,quickgo,"Uses", "Json/Https")
+    Rel(biological_objects,pdb,"Uses", "Json/Https")
+    Rel(biological_objects,"hgnc","Uses", "Json/Https")
+    Rel(biological_objects,uniprot,"Uses", "Json/Https")
+    Rel(biological_objects,tfbind,"Uses", "Json/Https")
+    Rel(biological_objects,jasper,"Uses", "Json/Https")
+
+}
+
+Rel(user,webapp, "uses")
+
+Rel(webapp,gateway, "Json/Https")
+
+Rel(gateway,control_access, "Json/Https")
+Rel(gateway,config_and_control, "Json/Https")
+Rel(gateway,biological_objects, "Json/Https")
+Rel(gateway,ontologies, "Json/Https")
+Rel(gateway,rrg_building, "Json/Https")
+
+BiRel(config_and_control,biological_objects, "Json/Http")
+BiRel(config_and_control,pubmed_integration, "Json/Http")
+BiRel(config_and_control,build_knowledge_base, "Json/Http")
+BiRel(config_and_control,rrg_building, "Json/Http")
+
+Rel(ontologies,biological_objects,"Uses", "Json/Https")
+
+UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="1")
+
+
+
+
+
+
+ 
