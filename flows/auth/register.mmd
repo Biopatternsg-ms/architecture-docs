@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant User
+    participant UI
+    participant config-and-control
+    participant Keycloak
+    participant EmailService as email
+
+    User->>UI: Fills registration form
+    UI->>config-and-control: Sends form via API REST
+    config-and-control->>Keycloak: Registers user in Keycloak
+    Keycloak->>EmailService: Sends activation link
+    EmailService->>Keycloak: Activation token
+    Keycloak->>UI: Activates account and redirects to UI
+    UI->>User:  Shows account activated message

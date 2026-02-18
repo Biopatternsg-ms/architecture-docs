@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User
+    participant UI
+    participant Config-and-control
+    participant Keycloak
+
+    User->>UI: Interacts with the UI
+    UI->>Config-and-control: Sends user credentials via API Rest
+    Config-and-control->>Keycloak: Performs authentication
+    Keycloak-->>Config-and-control: Responds with the JWT
+    Config-and-control-->>UI: Responds with the JWT to generate the session
+    UI-->>User:
