@@ -1,0 +1,150 @@
+{
+  "openapi" : "3.1.0",
+  "components" : {
+    "schemas" : {
+      "BiologicalObject" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "symbol" : {
+            "type" : "string"
+          },
+          "synonyms" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "GeneOntologyBuildTreeRequest" : {
+        "type" : "object",
+        "properties" : {
+          "cellularComponent" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "molecularFunction" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "biologicalProcess" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "goTermIds" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/gene-ontology/build-tree" : {
+      "post" : {
+        "summary" : "Build Gene Ontology tree",
+        "description" : "Initiates the process of building a Gene Ontology tree based on the provided request parameters.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GeneOntologyBuildTreeRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Gene Ontology tree building process started successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Success message"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error occurred while building gene ontology tree",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Error message"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Gene Ontology Controller" ]
+      }
+    },
+    "/mesh-ontology/mesh" : {
+      "post" : {
+        "summary" : "Send biological object to queue",
+        "description" : "Processes and sends biological object data to the message queue for further processing.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BiologicalObject"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Biological object successfully queued for processing",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Success message"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error occurred while building mesh ontology tree",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Error message"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Mesh Ontology Controller" ]
+      }
+    }
+  },
+  "info" : {
+    "title" : "ontologies API",
+    "version" : "1.0.0-SNAPSHOT"
+  }
+}

@@ -1,0 +1,615 @@
+{
+  "openapi" : "3.1.0",
+  "components" : {
+    "schemas" : {
+      "BiologicalObjectConfig" : {
+        "type" : "object",
+        "properties" : {
+          "uniprotId" : {
+            "type" : "string"
+          },
+          "hgncId" : {
+            "type" : "string"
+          },
+          "symbol" : {
+            "type" : "string"
+          }
+        }
+      },
+      "BlatSearchOptionsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "identity" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "chromosome" : {
+            "type" : "string"
+          },
+          "strand" : {
+            "type" : "string"
+          },
+          "start" : {
+            "type" : "string"
+          },
+          "end" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Complex" : {
+        "type" : "object",
+        "properties" : {
+          "complexPdbId" : {
+            "type" : "string"
+          },
+          "participants" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "GeneOntology" : {
+        "type" : "object",
+        "properties" : {
+          "cellularComponent" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "molecularFunction" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "biologicalProcess" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Genome" : {
+        "type" : "string",
+        "enum" : [ "HG38", "HG19" ]
+      },
+      "JasparRequest" : {
+        "type" : "object",
+        "required" : [ "genome", "track", "chromosome", "start", "end", "strand", "reliability" ],
+        "properties" : {
+          "genome" : {
+            "type" : "string"
+          },
+          "track" : {
+            "type" : "string"
+          },
+          "chromosome" : {
+            "type" : "string"
+          },
+          "start" : {
+            "type" : "string"
+          },
+          "end" : {
+            "type" : "string"
+          },
+          "strand" : {
+            "type" : "string"
+          },
+          "reliability" : {
+            "type" : "integer",
+            "exclusiveMinimum" : 0,
+            "format" : "int32"
+          }
+        }
+      },
+      "NameAndSynonymRequest" : {
+        "type" : "object",
+        "properties" : {
+          "pipelineId" : {
+            "type" : "string"
+          },
+          "level" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "PipelineConfig" : {
+        "type" : "object",
+        "properties" : {
+          "pipelineId" : {
+            "type" : "string"
+          },
+          "levels" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "expertObjects" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/BiologicalObjectConfig"
+            }
+          },
+          "transcriptionFactorConfig" : {
+            "$ref" : "#/components/schemas/TranscriptionFactorConfig"
+          }
+        }
+      },
+      "PromoterRegionRequest" : {
+        "type" : "object",
+        "required" : [ "reliability", "promoterRegion" ],
+        "properties" : {
+          "reliability" : {
+            "type" : "integer",
+            "exclusiveMinimum" : 0,
+            "format" : "int32"
+          },
+          "promoterRegion" : {
+            "type" : "string",
+            "pattern" : "\\S"
+          }
+        }
+      },
+      "Strand" : {
+        "type" : "string",
+        "enum" : [ "POSITIVE", "NEGATIVE" ]
+      },
+      "TranscriptionFactor" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "reliability" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "number" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sign" : {
+            "type" : "string"
+          },
+          "chain" : {
+            "type" : "string"
+          },
+          "matrix" : {
+            "type" : "string"
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/TranscriptionFactorSource"
+          }
+        }
+      },
+      "TranscriptionFactorConfig" : {
+        "type" : "object",
+        "properties" : {
+          "promoterRegion" : {
+            "type" : "string"
+          },
+          "reliability" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "start" : {
+            "type" : "number"
+          },
+          "end" : {
+            "type" : "number"
+          },
+          "genome" : {
+            "$ref" : "#/components/schemas/Genome"
+          },
+          "track" : {
+            "type" : "string"
+          },
+          "identity" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "chromosome" : {
+            "type" : "string"
+          },
+          "strand" : {
+            "$ref" : "#/components/schemas/Strand"
+          },
+          "sources" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TranscriptionFactorSource"
+            }
+          }
+        }
+      },
+      "TranscriptionFactorSource" : {
+        "type" : "string",
+        "enum" : [ "TFBIND", "JASPAR" ]
+      },
+      "UpdateMeshIdRequest" : {
+        "type" : "object",
+        "properties" : {
+          "biologicalObjectId" : {
+            "type" : "string"
+          },
+          "meshId" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/biological-object/complex/{uniprotId}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "uniprotId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Complex"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary" : "Find",
+        "tags" : [ "Complex Controller" ]
+      }
+    },
+    "/biological-object/launch-pipeline" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PipelineConfig"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "summary" : "Experiment",
+        "tags" : [ "Pipeline Controller" ]
+      }
+    },
+    "/biological-object/name-and-synonyms" : {
+      "post" : {
+        "summary" : "Get biological objects by pipeline and level",
+        "description" : "Retrieves biological objects with names and synonyms based on pipeline ID and level.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/NameAndSynonymRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved biological objects",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "name" : {
+                        "type" : "string"
+                      },
+                      "synonyms" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  },
+                  "description" : "List of biological objects with names and synonyms"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Biological Object Controller" ]
+      }
+    },
+    "/biological-object/search/{type}/{value}" : {
+      "get" : {
+        "summary" : "Find biological object by type and value",
+        "description" : "Searches for a biological object based on the specified type and value.",
+        "parameters" : [ {
+          "name" : "type",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "value",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved biological object",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "description" : "The biological object matching the search criteria",
+                  "properties" : {
+                    "id" : {
+                      "type" : "string"
+                    },
+                    "userId" : {
+                      "type" : "string"
+                    },
+                    "symbol" : {
+                      "type" : "string"
+                    },
+                    "name" : {
+                      "type" : "string"
+                    },
+                    "locusType" : {
+                      "type" : "string"
+                    },
+                    "ensemblGeneId" : {
+                      "type" : "string"
+                    },
+                    "hgncId" : {
+                      "type" : "string"
+                    },
+                    "uniprotId" : {
+                      "type" : "string"
+                    },
+                    "meshId" : {
+                      "type" : "string"
+                    },
+                    "synonyms" : {
+                      "type" : "array",
+                      "uniqueItems" : true,
+                      "items" : {
+                        "type" : "string"
+                      }
+                    },
+                    "geneOntology" : {
+                      "$ref" : "#/components/schemas/GeneOntology"
+                    },
+                    "geneFamilies" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      }
+                    },
+                    "tissues" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      }
+                    },
+                    "transcriptionFactor" : {
+                      "$ref" : "#/components/schemas/TranscriptionFactor"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Biological Object Controller" ]
+      }
+    },
+    "/biological-object/update-mesh-id" : {
+      "patch" : {
+        "summary" : "Update MeSH ID for biological object",
+        "description" : "Updates the MeSH (Medical Subject Headings) identifier for a specific biological object.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateMeshIdRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully updated MeSH ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Success message"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error occurred while updating MeSH ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "Error message"
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Biological Object Controller" ]
+      }
+    },
+    "/blat/search-options" : {
+      "post" : {
+        "summary" : "Search for BLAT options",
+        "description" : "Searches for BLAT options based on the provided promoter region sequence.",
+        "deprecated" : true,
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PromoterRegionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved BLAT search options",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BlatSearchOptionsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Blat Controller" ]
+      }
+    },
+    "/transcription-factor/by-blat-coordinates" : {
+      "post" : {
+        "summary" : "Find transcription factors by BLAT coordinates",
+        "description" : "Retrieves transcription factors based on genomic coordinates from a BLAT alignment.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/JasparRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved transcription factors",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "name" : {
+                        "type" : "string"
+                      },
+                      "reliability" : {
+                        "type" : "number",
+                        "format" : "float"
+                      },
+                      "number" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "sign" : {
+                        "type" : "string"
+                      },
+                      "chain" : {
+                        "type" : "string"
+                      },
+                      "matrix" : {
+                        "type" : "string"
+                      },
+                      "source" : {
+                        "$ref" : "#/components/schemas/TranscriptionFactorSource"
+                      }
+                    }
+                  },
+                  "description" : "List of transcription factors for the specified genomic coordinates"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Transcription Factor Controller" ]
+      }
+    },
+    "/transcription-factor/by-promoter-region" : {
+      "post" : {
+        "summary" : "Find transcription factors by promoter region",
+        "description" : "Retrieves a list of transcription factors that bind to the specified promoter region sequence.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PromoterRegionRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully retrieved transcription factors",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TranscriptionFactor"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          }
+        },
+        "tags" : [ "Transcription Factor Controller" ]
+      }
+    }
+  },
+  "info" : {
+    "title" : "biological-objects API",
+    "version" : "1.0.0-SNAPSHOT"
+  }
+}
